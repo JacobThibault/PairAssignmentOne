@@ -79,16 +79,16 @@ public class JDBCBroker
 	protected JDBCBroker()
     	{
     		// DEBUG: System.out.println("JDBCBroker.JDBCBroker()");
-		props = new PropertyFile("dbConfig.ini");
-		if (props != null)
-		{
-			dbName = props.getProperty("dbName");
-			username = props.getProperty("username");
-			password = props.getProperty("password");
-			server = props.getProperty("server");
+	//	props = new PropertyFile("dbConfig.ini");
+	//	if (props != null)
+	//	{
+			dbName ="spr22_csc429_jthib1" ;//props.getProperty("dbName");
+			username = "jthib1"; //props.getProperty("username");
+			password ="csc429projects";//props.getProperty("password");
+			server = "csdb.brockport.edu";//props.getProperty("server");
 			if (server == null)
 				server = "localhost";
-		}
+	//	}
 		String driverClassName = "com.mysql.jdbc.Driver";
 		try
 		{	

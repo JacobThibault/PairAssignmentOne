@@ -14,36 +14,35 @@ public class Book extends EntityBase{
 
     private String updateStatusMessage = "";
 
-    public Book(String bookID) throws exception.InvalidPrimaryKeyException {
+    public Book(String bookId) throws exception.InvalidPrimaryKeyException {
         super(myTableName);
         setDependencies();
 
-        String query = "SELECT * FROM " + myTableName + " WHERE (bookID = " + bookID + ")";
+        String query = "SELECT * FROM " + myTableName + " WHERE (bookId = " + bookId + ")";
 
         Vector allDataRetrieved = getSelectQueryResult(query);
 
-        // You must get one account at least
+        // You must get one book at least
         if (allDataRetrieved != null)
         {
             int size = allDataRetrieved.size();
 
-            // There should be EXACTLY one account. More than that is an error
+            // There should be EXACTLY one book. More than that is an error
             if (size != 1)
             {
-                throw new exception.InvalidPrimaryKeyException("Multiple accounts matching id : "
-                        + bookID + " found.");
+                throw new exception.InvalidPrimaryKeyException("Multiple books matching id : " + bookId + " found.");
             }
             else
             {
                 // copy all the retrieved data into persistent state
-                Properties retrievedAccountData = (Properties)allDataRetrieved.elementAt(0);
+                Properties retrievedBookData = (Properties)allDataRetrieved.elementAt(0);
                 persistentState = new Properties();
 
-                Enumeration allKeys = retrievedAccountData.propertyNames();
+                Enumeration allKeys = retrievedBookData.propertyNames();
                 while (allKeys.hasMoreElements() == true)
                 {
                     String nextKey = (String)allKeys.nextElement();
-                    String nextValue = retrievedAccountData.getProperty(nextKey);
+                    String nextValue = retrievedBookData.getProperty(nextKey);
 
                     if (nextValue != null)
                     {
@@ -56,8 +55,7 @@ public class Book extends EntityBase{
         // If no book found for this id, throw an exception
         else
         {
-            throw new exception.InvalidPrimaryKeyException("No book matching id : "
-                    + bookID + " found.");
+            throw new exception.InvalidPrimaryKeyException("No book matching id : " + bookId + " found.");
         }
     }
     public Book(Properties props)
@@ -84,25 +82,22 @@ public class Book extends EntityBase{
         updateStateInDatabase();
     }
 
-    private void updateStateInDatabase() // should be private? Should this be invoked directly or via the 'sCR(...)' method always?
+    private void updateStateInDatabase()
     {
         try
         {
-            if (persistentState.getProperty("bookID") != null)
+            if (persistentState.getProperty("bookId") != null)
             {
-                Properties whereClause = new Properties();
-                whereClause.setProperty("bookID",
-                        persistentState.getProperty("bookID"));
-                updatePersistentState(mySchema, persistentState, whereClause);
-                updateStatusMessage = "Book data for bookID number : " + persistentState.getProperty("bookID") + " updated successfully in database!";
+                Properties prop = new Properties();
+                prop.setProperty("bookId", persistentState.getProperty("bookId"));
+                updatePersistentState(mySchema, persistentState, prop);
+                updateStatusMessage = "Book data for bookId number : " + persistentState.getProperty("bookId") + " updated successfully in database!";
             }
             else
             {
-                Integer bookID =
-                        insertAutoIncrementalPersistentState(mySchema, persistentState);
-                persistentState.setProperty("bookID", "" + bookID.intValue());
-                updateStatusMessage = "Book data for new book : " +  persistentState.getProperty("bookID")
-                        + "installed successfully in database!";
+                Integer bookId = insertAutoIncrementalPersistentState(mySchema, persistentState);
+                persistentState.setProperty("bookId", "" + bookId.intValue());
+                updateStatusMessage = "Book data for new book : " +  persistentState.getProperty("bookId") + "installed successfully in database!";
             }
         }
         catch (SQLException ex)
@@ -111,7 +106,6 @@ public class Book extends EntityBase{
             System.out.println(ex.toString());
             ex.printStackTrace();
         }
-        //DEBUG System.out.println("updateStateInDatabase " + updateStatusMessage);
     }
 
     private void setDependencies()
@@ -125,8 +119,8 @@ public class Book extends EntityBase{
 
     @Override
     public String toString() {
-        return "Title: " + persistentState.getProperty("bookTitle") + "; Author: " +
-                persistentState.getProperty("author")  + "; Year: " +
+        return "Title: " + persistentState.getProperty("bookTitle") + ", Author: " +
+                persistentState.getProperty("author")  + ", Year: " +
                 persistentState.getProperty("pubYear") ;
     }
 
@@ -136,8 +130,8 @@ public class Book extends EntityBase{
 
     public static int compare(Book a, Book b)
     {
-        String aNum = (String)a.getState("bookID");
-        String bNum = (String)b.getState("bookID");
+        String aNum = (String)a.getState("bookId");
+        String bNum = (String)b.getState("bookId");
 
         return aNum.compareTo(bNum);
     }

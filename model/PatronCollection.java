@@ -4,7 +4,7 @@ import java.util.Properties;
 import java.util.Vector;
 
 public class PatronCollection extends EntityBase{
-    private static final String myTableName="Patron";
+    private static final String myTableName = "Patron";
     private Vector<Patron> patrons;
 
     public PatronCollection()
@@ -18,34 +18,37 @@ public class PatronCollection extends EntityBase{
             throw new Exception("UNEXPECTED ERROR: date is null");
         }
 
-        String query = "SELECT * FROM "+ myTableName+ " WHERE (dateOfBirth < '"+date+"')";
+        String query = "SELECT * FROM " + myTableName + " WHERE (dateOfBirth < '" + date + "')";
 
         queryHelper(query);
     }
     public void findPatronsYoungerThan(String date)throws Exception{
         if(date == null){
+
             throw new Exception("UNEXPECTED ERROR: date is null");
         }
 
-        String query = "SELECT * FROM "+ myTableName + " WHERE (dateOfBirth > '"+date+"')";
+        String query = "SELECT * FROM " + myTableName + " WHERE (dateOfBirth > '" + date + "')";
 
         queryHelper(query);
     }
     public void findPatronsAtZipCode(String zip)throws Exception{
         if(zip == null){
+
             throw new Exception("UNEXPECTED ERROR: zip is null");
         }
 
-        String query = "SELECT * FROM "+ myTableName+ " WHERE (zip = "+zip+")";
+        String query = "SELECT * FROM " + myTableName + " WHERE (zip = " + zip + ")";
 
         queryHelper(query);
     }
     public void findPatronsWithNameLike(String name)throws Exception{
         if(name == null){
+
             throw new Exception("UNEXPECTED ERROR: name is null");
         }
 
-        String query = "SELECT * FROM "+ myTableName+ " WHERE (name LIKE '%"+name+"%')";
+        String query = "SELECT * FROM " + myTableName + " WHERE (name LIKE '%" + name + "%')";
 
         queryHelper(query);
     }

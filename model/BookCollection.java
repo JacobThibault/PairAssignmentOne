@@ -25,17 +25,16 @@ public class BookCollection extends EntityBase {
             for (int cnt = 0; cnt < allDataRetrieved.size(); cnt++) {
                 Properties nextBookData = (Properties) allDataRetrieved.elementAt(cnt);
 
-                Book bk = new Book(nextBookData);
+                Book book = new Book(nextBookData);
 
-                if (bk != null) {
-                    addBook(bk);
+                if (book != null) {
+                    addBook(book);
                 }
             }
 
         }
     }
     public void findBooksOlderThanDate (String year) {
-
 
         String query = "SELECT * FROM " + myTableName + " WHERE (pubYear < " + year + ")";
 
@@ -75,14 +74,15 @@ public class BookCollection extends EntityBase {
     }
 
     public Object getState(String key) {
+
         return null;
     }
 
     public void stateChangeRequest(String key, Object value) {
     }
 
-    private int findIndexToAdd(Book a)
-    {
+    private int findIndexToAdd(Book a) {
+
         //users.add(u);
         int low=0;
         int high = books.size()-1;
@@ -108,7 +108,6 @@ public class BookCollection extends EntityBase {
             {
                 low=middle+1;
             }
-
 
         }
         return low;
